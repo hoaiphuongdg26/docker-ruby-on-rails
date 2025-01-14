@@ -1,0 +1,9 @@
+build:
+  image: docker:20.10.16
+  stage: build
+  services:
+    - docker:20.10.16-dind
+  script:
+    - echo "$DOCKERHUB_PASS" | docker login $CI_REGISTRY -u $DOCKER_USERNAME --password-stdin
+    - docker build -t $DOCKER_USERNAME/docker-ruby-on-rails:latest .
+    - docker push $DOCKER_USERNAME/docker-ruby-on-rails:latest
